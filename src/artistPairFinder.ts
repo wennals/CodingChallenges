@@ -15,27 +15,26 @@ export class ArtistPairFinder {
     const filePath: string = await this.getFilePath();
     if (filePath) {
       const repeatingArtists: ArtistMap = await this.parseFile(filePath);
-      const filteredArtists = this.filterArtists(repeatingArtists);
+      const filteredArtists: ArtistMap = this.filterArtists(repeatingArtists);
       const tempPairs: Set<string> =
         this.assemblePotentialPairs(filteredArtists);
-      const pairs = this.findRepeatingPairs(tempPairs, filteredArtists);
-      const fileExtensionIndex = filePath.indexOf('.');
-      const fileName = filePath.substring(0, fileExtensionIndex);
-      writeFile(
-        `${fileName}_results.csv`,
-        pairs.join("\n"),
-        (err) => {
-          if (err) {
-            console.log(
-              `There was an error creating the file, please try again. ${err}`
-            );
-          }
-        }
+      const pairs: string[] = this.findRepeatingPairs(
+        tempPairs,
+        filteredArtists
       );
+      const fileExtensionIndex: number = filePath.indexOf(".");
+      const fileName: string = filePath.substring(0, fileExtensionIndex);
+      writeFile(`${fileName}_results.csv`, pairs.join("\n"), (err) => {
+        if (err) {
+          console.log(
+            `There was an error creating the file, please try again. ${err}`
+          );
+        }
+      });
     }
   }
 
-// Extracts the filepath from the command line input
+  // Extracts the filepath from the command line input
   async getFilePath(): Promise<string> {
     const argv = await yargs.options({
       filePath: {
@@ -60,7 +59,7 @@ export class ArtistPairFinder {
       let i = 0;
       let repeatingArtists: ArtistMap = {};
       for await (const line of lineReader) {
-        const artists = line.split(",");
+        const artists: string[] = line.split(",");
         for (const artist of artists) {
           if (repeatingArtists[artist]) {
             repeatingArtists[artist].push(i++);
@@ -94,8 +93,8 @@ export class ArtistPairFinder {
         if (artist1 === artist2) {
           continue;
         }
-        const tempPair = `${artist1},${artist2}`;
-        const tempReversePair = `${artist2},${artist1}`;
+        const tempPair: string = `${artist1},${artist2}`;
+        const tempReversePair: string = `${artist2},${artist1}`;
         if (tempPairs.has(tempPair)) {
           continue;
         }
@@ -117,10 +116,10 @@ export class ArtistPairFinder {
   ): string[] {
     let finalPairs: string[] = [];
     tempPairs.forEach((pair: string) => {
-      const artists = pair.split(",");
-      const artist1 = artists[0];
-      const artist2 = artists[1];
-      let count = 0;
+      const artists: string[] = pair.split(",");
+      const artist1: string = artists[0];
+      const artist2: string = artists[1];
+      let count: number = 0;
       for (const index in repeatingArtists[artist1]) {
         if (index in repeatingArtists[artist2]) {
           count += 1;
@@ -128,7 +127,7 @@ export class ArtistPairFinder {
       }
 
       if ((count = 50)) {
-        const pair = `${artist1},${artist2}`;
+        const pair: string = `${artist1},${artist2}`;
         finalPairs.push(pair);
         return;
       }
