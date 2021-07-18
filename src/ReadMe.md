@@ -12,5 +12,6 @@ npm i
 ## Usage
 Run the following command to execute the program:
 ```bash
-npm run start --  --filePath=<relative-path-to-file>
+npm run start --  --filePath=filePath
 ```
+where filePath is the relative path to the test file. 
