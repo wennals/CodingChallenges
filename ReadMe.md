@@ -16,3 +16,6 @@ Run the following command to execute the program:
 npm run start --  --filePath=filePath
 ```
 where filePath is the relative path to the test file. 
+
+## Results
+The output .csv file will be returned at the root of the open directory

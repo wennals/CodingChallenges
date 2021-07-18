@@ -22,7 +22,7 @@ export class ArtistPairFinder {
       const fileExtensionIndex = filePath.indexOf('.');
       const fileName = filePath.substring(0, fileExtensionIndex);
       writeFile(
-        path.join(__dirname, `${fileName}_results.csv`),
+        `${fileName}_results.csv`,
         pairs.join("\n"),
         (err) => {
           if (err) {
